@@ -1,0 +1,155 @@
+﻿
+
+@model ListSchedule
+@{
+    ViewData["Title"] = "SetScheduleDoctor";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+@using Data_Model
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> usermanager
+@{
+    var userId = usermanager.GetUserId(User);
+}
+
+
+<h1 class="text-center">SetScheduleDoctor</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+<link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" asp-controller="Doctor" asp-action="RegisterSchedule">
+                    <div class="form-group mb-3">
+                         <input class="form-control" asp-for="IdDoctor" type="hidden" value="@userId">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="Monday"></label>
+                        <select asp-for="Monday" multiple class="form-control">
+                            @foreach (var item in ViewBag.listmonday)
+                            {
+                                @if (ViewBag.listscheduleid.Contains(item.Value))
+                                {
+                                    <option value="@item.Value" disabled style="opacity:0.9">@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="Tuesday"></label>
+                        <select asp-for="Tuesday" multiple class="form-control">
+                            @foreach (var item in ViewBag.listtuesday)
+                            {
+                                @if (ViewBag.listscheduleid.Contains(item.Value))
+                                {
+                                    <option value="@item.Value" disabled style="opacity:0.9">@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="Wednesday"></label>
+                        <select asp-for="Wednesday" multiple class="form-control">
+                            @foreach (var item in ViewBag.listwednesday)
+                            {
+                                @if (ViewBag.listscheduleid.Contains(item.Value))
+                                {
+                                    <option value="@item.Value" disabled style="opacity:0.9">@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="Thursday"></label>
+                        <select asp-for="Thursday" multiple class="form-control">
+                            @foreach (var item in ViewBag.listThursday)
+                            {
+                                @if (ViewBag.listscheduleid.Contains(item.Value))
+                                {
+                                    <option value="@item.Value" disabled style="opacity:0.9">@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="Friday"></label>
+                        <select asp-for="Friday" multiple class="form-control">
+                            @foreach (var item in ViewBag.listfriday)
+                            {
+                                @if (ViewBag.listscheduleid.Contains(item.Value))
+                                {
+                                    <option value="@item.Value" disabled style="opacity:0.9">@item.Text</option>
+                                }
+                                else {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class=" form-control-label" asp-for="Saturday"></label>
+                        <select asp-for="Saturday" multiple class="form-control">
+                            @foreach (var item in ViewBag.listsaturday)
+                            {
+                                @if (ViewBag.listscheduleid.Contains(item.Value))
+                                {
+                                    <option value="@item.Value" disabled style="opacity:0.9">@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <button type="submit" class="btn btn-success btn-block btn-rounded">
+                                Register
+                            </button>
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-primary" asp-controller="Doctor" asp-action="DoctorPage">Back</a>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("select").chosen({
+            no_results_text: "Oops, nothing found!"
+        });
+    }); 
+</script>

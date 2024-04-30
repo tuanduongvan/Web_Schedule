@@ -1,0 +1,64 @@
+﻿@model CustomerEdit
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Edit</h4>
+
+                <form method="post" asp-controller="Home" asp-action="Information">
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    <input type="hidden" asp-for="AcountId" value="@Model.AcountId" />
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="Fullname"></label>
+                        <input class="form-control" asp-for="Fullname" value="@Model.Fullname">
+                        <span class="form-control-feedback text-danger" asp-validation-for="Fullname"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="Phonenumber"></label>
+                        <input class="form-control" asp-for="Phonenumber" value="@Model.Phonenumber">
+                        <span class="form-control-feedback text-danger" asp-validation-for="Phonenumber"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="Address"></label>
+                        <input class="form-control" asp-for="Address" value="@Model.Address">
+                        <span class="form-control-feedback text-danger" asp-validation-for="Address"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="Email"></label>
+                        <input class="form-control" asp-for="Email" value="@Model.Email">
+                        <span class="form-control-feedback text-danger" asp-validation-for="Email"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="DayofBirth"></label>
+                        <input class="form-control" asp-for="DayofBirth" value="@Model.DayofBirth.ToString("yyyy-MM-ddTHH:mm:ss")">
+                        <span class="form-control-feedback text-danger" asp-validation-for="DayofBirth"></span>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <button type="submit" class="btn btn-success btn-block btn-rounded">
+                                Save
+                            </button>
+                        </div>
+                        <div class="col">
+                            @if (this.User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Admin" asp-action="CustomerManager" class="btn btn-primary"> Cancel</a>
+                            }
+                            else if (this.User.IsInRole("Customer")) 
+                            {
+                                <a asp-controller="Home" asp-action="CustomerView" class="btn btn-primary"> Cancel</a>
+                            }
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

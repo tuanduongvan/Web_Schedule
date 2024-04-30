@@ -1,0 +1,21 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+@using Data_Model
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> usermanager
+@{
+    var userId = usermanager.GetUserId(User);
+}
+@section Doctor
+{
+    <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Doctor" asp-action="RegisterSchedule" asp-route-id="@userId"><h5>RegisterSchedule</h5></a>
+        </li>
+    </ul>
+}
+<h2><span>This View for Doctor</span></h2>

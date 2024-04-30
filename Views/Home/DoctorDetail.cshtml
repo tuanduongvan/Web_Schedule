@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "DoctorDetail";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+@model Data_Model.Doctor
+
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+           <img src="~/Doctor/@Model.ImageFileName" width="200"/>
+        </div>
+        <div class="col-8">
+            <span>@Model.Discripsion</span>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-secondary" asp-controller="Home" asp-action="ViewDoctor">Back</a>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary" asp-controller="Home" asp-action="SetAppointment" asp-route-id="@Model.id">Set Appointment</a>
+        </div>
+    </div>
+</div>
+

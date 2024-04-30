@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@model List<Data_Model.Doctor>
+<h2 class="text-center mb-3">List of Doctor</h2>
+<div class="row">
+    <div class="col">
+        <a asp-controller="Admin" asp-action="CreateDoctor" class="btn btn-primary"> Create Doctor</a>
+    </div>
+    <div class="col">
+        <form class="d-flex flex-row" method="post" asp-controller="Admin" asp-action="DoctorManager">
+            <label for="search" class="mx-2 my-1"> Search</label>
+            <input class="form-control me-sm-2" type="search" name="search" value="@ViewBag.Search" placeholder="Search for Doctor">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phonenumber</th>
+        <th>Specialize</th>
+    </thead>
+    <tbody>
+        @foreach(var doctor in Model)
+        {
+            <tr>
+                <td>@doctor.id</td>
+                <td>@doctor.FullName</td>
+                <td>@doctor.Email</td>
+                <td>@doctor.PhoneNumber</td>
+                <td>@doctor.Specialize</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

@@ -1,0 +1,168 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+@using Data_Model
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> usermanager
+@{
+    var userid = usermanager.GetUserId(User);
+}
+@model SetAppointment
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" asp-controller="Home" asp-action="SetAppointment">
+                    <input type="hidden" name="doctorId" value="@ViewBag.Doctorid" />
+                    <input type="hidden" name="customerId" value="@userid" />
+                    <div class="form-group mb-3">
+                        <label class="form-control-label" asp-for="date"></label>
+                        <input class="form-control" asp-for="date" type="text" placeholder="select day..." id="Date">
+                        <span class="form-control-feedback text-danger" asp-validation-for="date"></span>
+                    </div>
+                    <div id="timeSelection" class="form-group mb-3">
+                        <label class="form-control-label" asp-for="starttime"></label>
+                        <select class="form-control" id="Time" asp-for="starttime" required>
+                            <option value="">please select...</option>
+                        </select>
+                        <span class="form-control-feedback text-danger" asp-validation-for="starttime"></span>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <button type="submit" class="btn btn-success btn-block btn-rounded">
+                                Set appointment
+                            </button>
+
+                        </div>
+                        <div class="col"></div>
+                        <div class="col">
+                            <a class="btn btn-secondary" asp-controller="Home" asp-action="DoctorDetail" asp-route-id="@ViewBag.Doctorid">Back</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script>
+    $(function () {
+        var doctorAvailability = {
+    @foreach (var availability in ViewBag.doctoravailability)
+    {
+        <text>'@availability.Key': [
+            @foreach (var value in availability.Value)
+            {
+                <text>'@(value)',</text>
+            }
+                                         ], </text>
+    }
+             };
+        var disabledDates = @Html.Raw(ViewBag.Dayunavailablejson);
+        function disableDates(date) {
+            var string = jQuery.datepicker.formatDate('mm-dd-yy', date);
+            return [disabledDates.indexOf(string) == -1];
+        }
+        $("#Date").datepicker({
+            dateFormat: 'mm-dd-yy',
+            minDate: 0,
+            beforeShowDay: disableDates,
+            onSelect: function (dateText, inst) {
+                CheckdateOption();
+            }
+        });
+
+        function IsAvailable(dayofweek) {
+            return doctorAvailability.hasOwnProperty(dayofweek);
+        }
+
+        function CheckdateOption()
+        {
+            var inputdate = document.getElementById('Date').value;
+            var dateParts = inputdate.split('-');
+            var selectdate = new Date(dateParts[2], parseInt(dateParts[0] - 1), dateParts[1]);
+
+            var dayofweekname = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var dayofweek = dayofweekname[selectdate.getDay()];
+            //
+            console.log('thu ngay -> ', dayofweek);
+            //
+            if (IsAvailable(dayofweek)) {
+                var startendtime = doctorAvailability[dayofweek];
+                console.log('cac ngay ->', startendtime);
+                var alltimes = [];
+                for (var i = 0; i < startendtime.length; i += 2) {
+                    var starttime = startendtime[i];
+                    var endtime = startendtime[i + 1];
+                    var start = new Date("01/01/2000 " + starttime);
+                    var end = new Date("01/01/2000 " + endtime);
+
+                    console.log('bat dau: ', start, ' ket thu: ', end)
+
+                    while (start < end) {
+                        alltimes.push(start.toLocaleTimeString('en-US', { hour12: false }));
+                        start.setMinutes(start.getMinutes() + 30);
+
+                    }
+                }
+
+                var Appointment;
+
+            $.ajax(
+                {
+                    url: '@Url.Action("GetOptionTime", "Home")',
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded',
+                    data: { date: inputdate },
+                    success: function (data) {
+                        Appointment = data;
+                        console.log('Dữ liệu nhận được từ máy chủ:', data);
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        toastr.error(error.reponseText, 'Notification', { timeout: 2000 });
+                    }
+
+                });
+
+
+                //sap xep theo chieu tang dan
+                alltimes.sort();
+                //lam trong ca lua chon co trong the select co id="Time"
+                $("#Time").empty();
+                // Thêm một option mặc định
+                $('#Time').append($('<option>', {
+                    value: "",
+                    text: "Please Select..."
+                }));
+
+                for (var j = 0; j < alltimes.length; j++) {
+                    var timeoption = $('<option>', {
+                        value: alltimes[j],
+                        text: alltimes[j]
+                    });
+                    $('#Time').append(timeoption);
+                    // if (Appointment.hasOwnProperty(timeoption.val()))
+                    // {
+                    //     timeoption.prop('disabled', true);
+                    // }
+                }
+                $('#timeSelection').show();
+            }
+            else {
+                $('#timeSelection').hide();
+            } 
+
+        }
+
+    });
+
+
+ </script>

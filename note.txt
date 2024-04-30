@@ -1,0 +1,280 @@
+﻿lệnh dùng để mục con hiển thị : RenderBody();=> nhúng trang con vào Layout ở vị trí lệnh được gọi
+
+properties => .json: chua cac cau hinh duoc dung de chay chuong trinh
+double click on webname: noi instal cac goi vao, lien ket co so du lieu
+www: thu muc mo rong, noi chua cac file mo rong(css, js, img, ...)
+appsetting.json: noi thiet lap cac ket noi cua ung dung (API, ....), 
+
+
+Các bước liên kết:
+- vào Tool tạo => connect to database => vào SQL sever lấy link liên kết => chuột phải vào tên cơ sở dữ lệu
+
+- tạo AppDbContext kế thừa từ: IdentityDbContext<AppUser>
+- taoj kết nối database: =>program.cs  <  builder.Services.AddDbContext<AppDbContext>(options =>
+	 {
+	   options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+	}); >
+- dẫn đường link tới SQL Sever trong appsettting.json
+	<"AllowedHosts": "*",
+  "ConnectionStrings": {
+    "SqlServer": "Data Source=LAPTOP-7G4SD6KE\\ANHTUAN_SQL;Initial Catalog=Anhtuan_Web;Integrated Security=True; TrustServerCertificate=True"
+>
+
+
+
+lệnh tạo bảng:  - tạo file => khởi tạo đối tượng ơr trong appDbcontext
+						ex: public DbSet<Medicine> medicines { set; get; }
+				- add-migration <name> => tao bang 
+				- update-database
+				- taọ khóa ngoại khóa chính ở trong OnModelCreate
+
+
+-Tìm hiểu về: query trong entity framework, mapper
+
+
+///lazy load: 
+using  <PackageReference Include="Microsoft.EntityFrameworkCore.proxies"/>
+khai bao them virtual trong phan khoa ngoai {Fk}
+
+
+\\Giám sát của Dbcontext: 
+EntityEntry<product> newentry = dbcontext.Entry(product);
+//lenh dung de duwngf dam sat
+entry.State = EntityState.Detached;
+==>không dùng được các lệnh như Savechange()......
+
+
+// hiển thị Logging hiển thị SQL trong tẻminal
+cài đạưt các gói : 
+dotnet add package Microsoft.Extensions.DependencyInjection
+dotnet add package Microsoft.Extensions.Logging
+dotnet add package Microsoft.Extensions.Logging.Console
+
+//Fluent API thiết lập dữ liệukhóa chính khóa ngoại
+trong AppDbcontext 
+	ex: var entity = modebuilder.Entity(typeof(Modelname));
+	or ex: var entity = modebuilder.Entity<modelname>();
+
+	thong dung: modelBuilder.Etity<product>(entity => {
+
+	entity=> fluent API
+	});
+
+
+	dich vu: usermanager, user
+	{
+	        private readonly UserManager<AppUser> userManager;
+        private readonly SignInManager<AppUser> signInManager;
+	}
+
+	*usermanager: cho phep them, sua, xoa, cap nhat user, xoa tai khoan, 
+
+	viewStrar
+	+ tao view mac dinh cho cac view (neu tao o trong moi view)
+	+ tao view amc dinh cho toan bo view (tao thu muc trong View)
+
+	renderSection 
+	+ chen vao them trong layout
+
+	Razor View engine ( cho phép viết mã HTML và mã C# (hoặc VB.NET) trong cùng một tập tin Razor (.cshtml hoặc .vbhtml).)
+	  Kết hợp mã HTML và mã Razor: Bạn có thể sử dụng cú pháp đặc biệt để nhúng mã C# hoặc VB.NET vào trong mã HTML. Ví dụ: @{ } cho các khối mã, @ để biểu thị một biến hoặc biểu thức C#.
+	  hien thi du lieu: @name variable
+		
+
+	Partial VIew : 
+		Tao partial view trong Share
+		khong co the body, htmt => chi chua cac thanh phan div....
+		su dung: @{
+					truyen tham so cho partialview
+					RederPartial("namePatialview");
+
+			}
+
+
+
+[Route("controller/action/{thamso}")]
+
+tolist(): lay tat ca thong tin tu bang
+dinh dang hien thi ngay thang:   .value.tostring("d/m/yyyy");
+
+
+to check userrole : user.IsInRole("Admin")
+chi dinh trang duoc phep truy cap: [Authorize(Roles = "Admin")]
+hien thi ngay thang: .ToString(dd/MM/yyyy)
+
+
+
+
+
+@model PBL3Hos.Models.DbModel.AppointmentDB
+@{
+    ViewData["Title"] = "Appointment";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h1>Appointment</h1>
+<form action="/account/appointment" method="post">
+    <input type="hidden" name="DoctorId" value="@Model.DoctorId" />
+    <input type="hidden" name="PatientId" value="@Model.PatientId" />
+    <input type="hidden" name="id" value="@Model.Doctor.AccountId" />
+    <table class="table">
+        <tr>
+            <th>User Name</th>
+            <td>@Model.Doctor.AppUser.Fullname</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>@Model.Doctor.AppUser.Email</td>
+        </tr>
+
+
+
+
+    </table>
+    <div class="col-md-6">
+        <div class="col-md-6">
+            @Html.LabelFor(temp => temp.Date)
+            <input name="Date" id="Date" class="form-control" type="text" placeholder="Date" , value="Select Day..." ,readonly onblur="checkDayOfWeek" />
+            @Html.ValidationMessageFor(temp => temp.Date)
+        </div>
+    </div>
+    <div id="timeSelection" class="col-md-6" style="display: none;">
+        <div class="col-md-6">
+            <label for="Time">Time</label>
+            <select class="form-control" id="Time" name="StartTime" required>
+                <option value="">Please Select...</option>
+            </select>
+        </div>
+    </div>
+
+    <p class="text-danger">@ViewBag.Error</p>
+    <button type="submit" class="btn btn-success">Register</button>
+</form>
+
+<a href=@Url.Action("Index","Home")>Back</a>
+
+<script>
+    $(function () {
+
+        // Lấy danh sách ngày và ca làm việc từ ViewBag
+        var doctorAvailability = {
+            @foreach (var availability in ViewBag.DoctorAvailability)
+            {
+                <text>'@availability.Key': [
+                    @foreach (var tuple in availability.Value)
+                    {
+                        <text>'@(tuple.Item1)', '@(tuple.Item2)', </text>
+                    }
+                                 ], </text>
+            }
+         };
+    var doctorAppointment = {
+        @foreach (var item in ViewBag.DoctorAppointment)
+        {
+            <text>'@item.Key':
+            [@foreach (var value in item.Value)
+                {
+                    <text>'@value', </text>
+                }], </text>
+        }
+            };
+    // Hàm kiểm tra xem ngày được chọn có trong danh sách ca làm việc không
+    function isAvailableDay(dayOfWeek) {
+        return doctorAvailability.hasOwnProperty(dayOfWeek);
+    }
+
+    function isAvailableTime(timeOfWeek) {
+        return doctorAppointment.hasOwnProperty(timeOfWeek);
+    }
+    var bookedDates = [@Html.Raw(ViewBag.BookedDates)];
+    function checkDayOfWeek() {
+        var inputDate = document.getElementById('Date').value;
+        var dateParts = inputDate.split('-');
+        var selectedDate = new Date(dateParts[2], parseInt(dateParts[0]) - 1, dateParts[1]);
+
+        var dayOfWeekNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var selectedDayOfWeek = dayOfWeekNames[selectedDate.getDay()];
+
+        if (isAvailableDay(selectedDayOfWeek)) {
+            var startEndTimes = doctorAvailability[selectedDayOfWeek];
+            var allTimes = [];
+
+            // Lặp qua các cặp giá trị thời gian cho ngày đã chọn và thêm vào mảng
+            for (var i = 0; i < startEndTimes.length; i += 2) {
+                var startTime = startEndTimes[i];
+                var endTime = startEndTimes[i + 1];
+                var start = new Date("01/01/2000 " + startTime);
+                var end = new Date("01/01/2000 " + endTime);
+
+                // Thêm các thời gian vào mảng
+                while (start <= end) {
+                    allTimes.push(start.toLocaleTimeString('en-US', { hour12: false }));
+                    start.setMinutes(start.getMinutes() + 30); // Tăng biến đếm
+                }
+            }
+
+            // Sắp xếp mảng thời gian theo thứ tự tăng dần
+            allTimes.sort();
+
+            // Xóa các option trong dropdownlist
+            $('#Time').empty();
+            // Thêm một option mặc định
+            $('#Time').append($('<option>', {
+                value: "",
+                text: "Please Select..."
+            }));
+
+            // Thêm các thời gian đã sắp xếp vào dropdownlist
+            for (var j = 0; j < allTimes.length; j++) {
+                var timeOption = $('<option>', {
+                    value: allTimes[j],
+                    text: allTimes[j]
+                });
+                $('#Time').append(timeOption);
+            }
+
+            $('#timeSelection').show();
+        } else {
+            $('#timeSelection').hide();
+        }
+        hideAppointments(inputDate);
+    }
+    var disabledDates = @Html.Raw(ViewBag.BookedDatesJson);
+    function disableDates(date) {
+        var string = jQuery.datepicker.formatDate('mm-dd-yy', date);
+        return [disabledDates.indexOf(string) == -1];
+    }
+
+    $("#Date").datepicker({
+        dateFormat: 'mm-dd-yy',
+        minDate: 0,
+        beforeShowDay: disableDates,
+        onSelect: function (dateText, inst) {
+            checkDayOfWeek();
+        }
+    });
+    function hideAppointments(selectedDate) {
+        var appointments = doctorAppointment[selectedDate];
+
+        if (appointments) {
+            // Xóa option đã được chọn
+            $('select[name="StartTime"] option').each(function () {
+                var optionValue = $(this).val().toString();
+                if (appointments.includes(optionValue)) {
+                    $(this).prop('disabled', true);
+                } else {
+                    $(this).prop('disabled', false);
+                }
+            });
+        } else {
+
+            $('select[name="StartTime"] option').prop('disabled', false);
+        }
+    }
+                 });
+
+
+
+
+</script>
+
