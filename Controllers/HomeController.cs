@@ -478,11 +478,7 @@ namespace PBL_WEB.Controllers
         public IActionResult MyAppointment(string id)
         {
             var customer = db.customers.Where(ctm => ctm.AcountId == id).FirstOrDefault();
-            var appointment = db.appointmentSchedules.Where(ap => ap.CustomerId == customer.Id).ToList();
-            //foreach(var item  in appointment)
-            //{
-            //    var docto
-            //}
+            var appointment = db.appointmentSchedules.Where(ap => ap.CustomerId == customer.Id).Include(dt => dt.doctor).ToList();
             return View(appointment);
         }
         public IActionResult Index()
@@ -507,7 +503,7 @@ namespace PBL_WEB.Controllers
         {
             List<string> unvailableAppointment = new List<string>();
             var newdate = date.Split('-');
-            var newdatetime = new DateTime(int.Parse(newdate[2]), int.Parse(newdate[0]) - 1, int.Parse(newdate[1]));
+            var newdatetime = new DateTime(int.Parse(newdate[2]), int.Parse(newdate[0]), int.Parse(newdate[1]));
             var appointment = db.appointmentSchedules.Where(ap => ap.Date == newdatetime).ToList();
             foreach(var item in appointment)
             {

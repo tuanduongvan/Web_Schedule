@@ -1,1 +1,44 @@
-﻿
+﻿@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+
+@model List<Data_Model.AppointmentSchedules>
+
+<hr />
+
+<table class="table table-striped">
+    <thead>
+    <th>Name</th>
+    <th>Specialize</th>
+    <th>Phonenumber</th>
+    <th>Date</th>
+    <th>Time</th>
+    </thead>
+    <tbody>
+        @foreach (var appoint in Model)
+        {
+            <tr>
+                <td>@appoint.doctor.FullName</td>
+                <td>@appoint.doctor.Specialize</td>
+                <td>@appoint.doctor.PhoneNumber</td>
+                <td>@appoint.Date.ToString("dd-MM-yyyy")</td>
+                <td>@appoint.StartTime</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<div class="row row-striped">
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"><a class="btn btn-primary" asp-controller="Home" asp-action="CustomerView">Back</a></div>
+</div>
+<hr />
+
+

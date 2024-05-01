@@ -528,3 +528,4 @@ D:\VISUALCODE\Web_Schedule\obj\Debug\net7.0\refint\PBL_WEB.dll
 D:\VISUALCODE\Web_Schedule\obj\Debug\net7.0\PBL_WEB.pdb
 D:\VISUALCODE\Web_Schedule\obj\Debug\net7.0\PBL_WEB.genruntimeconfig.cache
 D:\VISUALCODE\Web_Schedule\obj\Debug\net7.0\ref\PBL_WEB.dll
+D:\VISUALCODE\Web_Schedule\obj\Debug\net7.0\PBL_WEB.sourcelink.json

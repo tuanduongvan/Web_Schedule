@@ -112,49 +112,85 @@
 
                     }
                 }
-
-                var Appointment;
-
-            $.ajax(
-                {
-                    url: '@Url.Action("GetOptionTime", "Home")',
-                    type: 'POST',
-                    contentType: 'application/x-www-form-urlencoded',
-                    data: { date: inputdate },
-                    success: function (data) {
-                        Appointment = data;
-                        console.log('Dữ liệu nhận được từ máy chủ:', data);
-                    },
-                    error: function (error) {
-                        console.log(error)
-                        toastr.error(error.reponseText, 'Notification', { timeout: 2000 });
-                    }
-
-                });
-
-
-                //sap xep theo chieu tang dan
-                alltimes.sort();
-                //lam trong ca lua chon co trong the select co id="Time"
-                $("#Time").empty();
-                // Thêm một option mặc định
-                $('#Time').append($('<option>', {
-                    value: "",
-                    text: "Please Select..."
-                }));
-
-                for (var j = 0; j < alltimes.length; j++) {
-                    var timeoption = $('<option>', {
-                        value: alltimes[j],
-                        text: alltimes[j]
-                    });
-                    $('#Time').append(timeoption);
-                    // if (Appointment.hasOwnProperty(timeoption.val()))
-                    // {
-                    //     timeoption.prop('disabled', true);
-                    // }
+                function getvalue(inputdate) {
+                    return $.ajax(
+                        {
+                            url: '@Url.Action("GetOptionTime", "Home")',
+                            type: 'POST',
+                            contentType: 'application/x-www-form-urlencoded',
+                            data: { date: inputdate },
+                        });
                 }
-                $('#timeSelection').show();
+                var dataRaw = getvalue(inputdate);
+
+                dataRaw.then(function (Appointment) {
+                    console.log('Dữ liệu nhận được từ máy chủ:', Appointment);
+                    //sap xep theo chieu tang dan
+                    alltimes.sort();
+                    //lam trong ca lua chon co trong the select co id="Time"
+                    $("#Time").empty();
+                    // Thêm một option mặc định
+                    $('#Time').append($('<option>', {
+                        value: "",
+                        text: "Please Select..."
+                    }));
+
+                    for (var j = 0; j < alltimes.length; j++) {
+                        var timeoption = $('<option>', {
+                            value: alltimes[j],
+                            text: alltimes[j]
+                        });
+                        if (Appointment.includes(timeoption.val())) {
+                            console.log('true')
+                            timeoption.prop('disabled', true);
+                        }
+                        $('#Time').append(timeoption);
+                    }
+                    $('#timeSelection').show();
+                })
+                
+                
+                  // $.ajax(
+                  //       {
+                  //           url: '@Url.Action("GetOptionTime", "Home")',
+                  //           type: 'POST',
+                  //           contentType: 'application/x-www-form-urlencoded',
+                  //           data: { date: inputdate },
+                  //           success: function (data) {
+                  //               Appointment = data;
+                        
+                  //           },
+                  //           error: function (error) {
+                  //               console.log(error)
+                  //               toastr.error(error.reponseText, 'Notification', { timeout: 2000 });
+                  //           }
+
+                  //       }) ;
+
+                // console.log('Dữ liệu nhận được từ máy chủ:', Appointment);
+                // sap xep theo chieu tang dan
+                // alltimes.sort();
+                // lam trong ca lua chon co trong the select co id="Time"
+                // $("#Time").empty();
+                // Thêm một option mặc định
+                // $('#Time').append($('<option>', {
+                //     value: "",
+                //     text: "Please Select..."
+                // }));
+
+                // for (var j = 0; j < alltimes.length; j++) {
+                //     var timeoption = $('<option>', {
+                //         value: alltimes[j],
+                //         text: alltimes[j]
+                //     });
+                //     if (Appointment.Include(timeoption.val().toString()))
+                //     {
+                //         console.log('true')
+                //         timeoption.prop('disabled', true);
+                //     }
+                //     $('#Time').append(timeoption);
+                // }
+                // $('#timeSelection').show();
             }
             else {
                 $('#timeSelection').hide();
