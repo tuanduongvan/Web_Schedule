@@ -127,7 +127,25 @@ namespace PBL_WEB.Controllers
             return View(schedule);
         }
 
-      
+
+        public IActionResult ImportWarehouse()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ImportWarehouse(ImportMedicine medicine)
+        {
+            if (ModelState.IsValid)
+            {
+               var med = _db.medicines.Where(md => md.Name == medicine.Name).FirstOrDefault();
+                if(med != null)
+                {
+                    
+                }
+            }
+            return View();
+        }
+
 
     }
 }

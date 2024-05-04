@@ -278,3 +278,10 @@ hien thi ngay thang: .ToString(dd/MM/yyyy)
 
 </script>
 
+//////////////
+
+nhap xuat thuoc, tao benh an, tao don thuoc, thanh toan,
+lich hen: huy lich, xac minh nguoi dung (email, sdt), them thong tin benh an
+tim kiem bac si phu hop tu ben ngoai trang
+
+// ngay han la ngay hay la thoi han
