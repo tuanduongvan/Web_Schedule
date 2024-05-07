@@ -285,3 +285,8 @@ lich hen: huy lich, xac minh nguoi dung (email, sdt), them thong tin benh an
 tim kiem bac si phu hop tu ben ngoai trang
 
 // ngay han la ngay hay la thoi han
+
+///socket, xac minh gmail, dang nhap bang tai khoan mang xa hoi, thanh toan qua the tin dung, JWT: xac thuc
+// kien truc he thong, achitecture,
+
+//

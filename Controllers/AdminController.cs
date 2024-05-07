@@ -138,10 +138,46 @@ namespace PBL_WEB.Controllers
             if (ModelState.IsValid)
             {
                var med = _db.medicines.Where(md => md.Name == medicine.Name).FirstOrDefault();
-                if(med != null)
+                if(med == null)
                 {
-                    
+                    var newmedicine = new Medicine()
+                    {
+                        Name = medicine.Name,
+                    };
+                    _db.medicines.Add(newmedicine);
                 }
+                else
+                {
+                    var inven = _db.medicineinventories.Where(inven => inven.MedicineId == med.ID).FirstOrDefault();
+                    if(inven == null)
+                    {
+                        var newinventory = new MedicineInventories()
+                        {
+                            MedicineId = med.ID,
+                            ExpiryDate = medicine.ExpiryDate,
+                            InventoryQuantity = medicine.Quantity,
+                        };
+                        _db.medicineinventories.Add(newinventory);
+                    }
+                    else
+                    {
+                        if(inven.ExpiryDate == medicine.ExpiryDate)
+                        {
+                            inven.InventoryQuantity += medicine.Quantity;
+                        }
+                        else
+                        {
+                            var newinventory = new MedicineInventories()
+                            {
+                                MedicineId = med.ID,
+                                ExpiryDate = medicine.ExpiryDate,
+                                InventoryQuantity = medicine.Quantity,
+                            };
+                            _db.medicineinventories.Add(newinventory);
+                        }
+                    }
+                }
+                _db.SaveChanges();
             }
             return View();
         }

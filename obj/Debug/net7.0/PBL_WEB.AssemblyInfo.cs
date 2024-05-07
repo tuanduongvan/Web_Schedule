@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PBL_WEB")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+62e253e659bb87e4ff33fee8ef5665811cde5592")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a916a42b78ac49f6d49be3275088626761e41fc2")]
 [assembly: System.Reflection.AssemblyProductAttribute("PBL_WEB")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PBL_WEB")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
