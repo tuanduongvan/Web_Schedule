@@ -1,13 +1,11 @@
-﻿
-
-@using Data_Model
+﻿@using Data_Model
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> signInManager
 @inject UserManager<AppUser> userManager
 
-    @{
-        var userId = userManager.GetUserId(User);
-    }
+@{
+    var userId = userManager.GetUserId(User);
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,15 +33,12 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="bi bi-person-circle"></i></a>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" asp-controller="Home" asp-action="Information" asp-route-id = "@userId">MyInformation </a>
-                            <a class="dropdown-item" asp-controller="Home" asp-action="MyAppointment" asp-route-id="@userId">MyAppointment</a>
-                            @RenderSection("appoint", required: false)
-                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" asp-controller="Doctor" asp-action="MyAppointment" asp-route-id="@userId">MyAppointment</a>                            <div class="dropdown-divider"></div>
                             <form class="text-center" asp-controller="Home" asp-action="DangXuat" method="post">
                                 @Html.AntiForgeryToken()
                                 <button type="submit" class="btn btn-outline-primary"><i class="bi bi-box-arrow-right"></i>Đăng Xuất</button>
                             </form>
-                         
+
                         </div>
                     </li>
                 </ul>

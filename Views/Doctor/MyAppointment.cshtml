@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "MyAppointment";
+    Layout = "~/Views/Shared/_DoctorLayout.cshtml";
+}
+@model List<Data_Model.AppointmentSchedules>
+
+<table class="table table-striped">
+    <thead>
+        <th>Customername</th>
+        <th>Phonenumber</th>
+        <th>Date</th>
+        <th>Time</th>
+    </thead>
+    <tbody>
+        @foreach(var user in Model)
+        {
+            <tr>
+                <td>@user.customer.Fullname</td>
+                <td>@user.customer.Phonenumber</td>
+                <td>@user.Date.ToString("dd-MM-yyyy")</td>
+                <td>@user.StartTime</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<div class="row row-striped">
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col"><a class="btn btn-primary" asp-controller="Doctor" asp-action="DoctorPage">Back</a></div>
+</div>
+<hr />
+

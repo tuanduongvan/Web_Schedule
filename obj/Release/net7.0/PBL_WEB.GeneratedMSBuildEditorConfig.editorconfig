@@ -46,10 +46,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdG9yXERvY3RvclBhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/VISUALCODE/Web_Schedule/Views/Doctor/MyAppointment.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdG9yXE15QXBwb2ludG1lbnQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/VISUALCODE/Web_Schedule/Views/Doctor/RegisterSchedule.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdG9yXFJlZ2lzdGVyU2NoZWR1bGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -112,10 +108,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/VISUALCODE/Web_Schedule/Views/Shared/_CustomerLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DdXN0b21lckxheW91dC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/VISUALCODE/Web_Schedule/Views/Shared/_DoctorLayout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Eb2N0b3JMYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/VISUALCODE/Web_Schedule/Views/Shared/_ValidationScriptsPartial.cshtml]

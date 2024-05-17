@@ -145,6 +145,17 @@ namespace PBL_WEB.Controllers
                         Name = medicine.Name,
                     };
                     _db.medicines.Add(newmedicine);
+                    var inven = _db.medicineinventories.Where(inven => inven.MedicineId == newmedicine.ID).FirstOrDefault();
+                    if(inven == null)
+                    {
+                        var medicineInInven = new MedicineInventories()
+                        {
+                            MedicineId = newmedicine.ID,
+                            ExpiryDate = medicine.ExpiryDate,
+                            InventoryQuantity = medicine.Quantity,
+                        };
+
+                    }
                 }
                 else
                 {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using PBL_WEB.Models;
 
 namespace PBL_WEB.Controllers
@@ -231,6 +232,17 @@ namespace PBL_WEB.Controllers
             ViewBag.listsaturday = listSaturday;
             ViewBag.listscheduleid = listschedule;
             return Redirect($"/Doctor/RegisterSchedule/{list.IdDoctor}");
+        }
+
+        public IActionResult MyAppointment(string Id)
+        {
+            var Doctor = db.doctors.Where(dt => dt.AcountId == Id).FirstOrDefault();
+            if (Doctor != null)
+            {
+                var appointment = db.appointmentSchedules.Where(ap => ap.DoctorId == Doctor.id).Include(ctm => ctm.customer).ToList();
+                return View(appointment);
+            }
+            else return RedirectToAction("DoctorPage");
         }
         public IActionResult DoctorPage()
         {
